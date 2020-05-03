@@ -5,7 +5,9 @@
 }
 
 <script src="~/js/Chart.bundle.min.js"></script>
-
+<script src="~/js/Chart.min.js"></script>
+<script src="~/lib/react-chartjs/react-chartjs.min.js"></script>
+<script src="~/js/chartjs-plugin-drag.js"></script>
 
 <div class="text-center">
     <h1 class="display-4">Invoice List</h1>
@@ -55,12 +57,36 @@
     var myInvoices;
 
 
-
     function showChart() {
         myAmounts = myInvoices.AmountList;
         myCategories = myInvoices.CategoryList;
         console.log(myAmounts);
         console.log(myCategories);
+
+        Chart.pluginService.register({
+            beforeDraw: function (chart, easing) {
+                if (
+                    chart.config.options.chartArea &&
+                    chart.config.options.chartArea.backgroundColor
+                ) {
+                    var helpers = Chart.helpers;
+                    var ctx = chart.chart.ctx;
+                    var chartArea = chart.chartArea;
+
+                    ctx.save();
+                    ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+                    ctx.fillRect(
+                        chartArea.left,
+                        chartArea.top,
+                        chartArea.right - chartArea.left,
+                        chartArea.bottom - chartArea.top
+                    );
+                    ctx.restore();
+                }
+            },
+        });
+
+
 
         let popCanvasName = document.getElementById("invChart");
         let barChartName = new Chart(popCanvasName, {
@@ -103,8 +129,6 @@
                             fontColor: "#531A15",
                             beginAtZero: true,
                         },
-
-
                         ticks: {
                             beginAtZero: true,
 
@@ -131,11 +155,46 @@
                         },
                     ],
 
-
-                }
+                },
+                dragData: true
             }
         });
-        barChartName;
+
+
+
+        //var ctx = document.getElementById("invChart").getContext("1d");
+        //var chartInstance = new Chart(ctx, options);
+
+        //d3.select(chartInstance.chart.canvas).call(
+        //    d3
+        //        .drag()
+        //        .container(chartInstance.chart.canvas)
+        //        .on("start", getElement)
+        //        .on("drag", updateData)
+        //        .on("end", getElement)
+        //);
+
+        //var element, scale, datasetIndex, index, value;
+
+        //function getElement() {
+        //    var e = d3.event.sourceEvent;
+        //    element = chartInstance.getElementAtEvent(e)[0];
+        //    if (element) scale = element._yScale.id;
+        //}
+
+        //function updateData() {
+        //    var e = d3.event.sourceEvent;
+        //    if (element) {
+        //        datasetIndex = element._datasetIndex;
+        //        index = element._index;
+        //    }
+        //    if (chartInstance.scales[scale])
+        //        value = chartInstance.scales[scale].getValueForPixel(e.clientY);
+        //    if (chartInstance.data.datasets[datasetIndex])
+        //        chartInstance.data.datasets[datasetIndex].data[index] = value;
+        //    chartInstance.update(0);
+        //}
+
     }
 
 

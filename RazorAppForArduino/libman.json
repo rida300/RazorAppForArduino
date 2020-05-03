@@ -5,6 +5,14 @@
     {
       "library": "Chart.js@2.9.3",
       "destination": "wwwroot/js/Chart.js/"
+    },
+    {
+      "library": "chartjs-plugin-annotation@0.5.7",
+      "destination": "wwwroot/js/chartjs-plugin-annotation/"
+    },
+    {
+      "library": "react-chartjs@1.2.0",
+      "destination": "wwwroot/lib/react-chartjs/"
     }
   ]
 }

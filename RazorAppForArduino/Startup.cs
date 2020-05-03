@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace RazorAppForArduino
 {
@@ -29,7 +29,10 @@ namespace RazorAppForArduino
         {
             services.AddRazorPages();
 
-
+            services.AddDbContextPool<AppDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("BoostDBConnection"));
+            });
 
             /*services.Configure<CookiePolicyOptions>(options =>
             {
