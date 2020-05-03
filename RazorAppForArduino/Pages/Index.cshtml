@@ -1,0 +1,24 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+   /* var myChart = new Chart(width: 600, height: 400)
+        .AddTitle("Chart Title")
+        .AddSeries(
+            name: "Employee",
+            xValue: new[] { "Peter", "Andrew", "Julie", "Mary", "Dave" },
+            yValues: new[] { "2", "6", "4", "5", "3" })
+        .Write();*/
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to @Model.Message</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<form method="post">
+    <div class="form-check">
+        <button type="submit" class="btn btn-primary" asp-page-handler="LedOn">ON</button>
+        <button type="submit" class="btn btn-primary" asp-page-handler="LedOff">OFF</button>
+    </div>
+</form>
+
