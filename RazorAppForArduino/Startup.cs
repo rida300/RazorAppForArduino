@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using RazorAppForArduino.Model;
 
 namespace RazorAppForArduino
 {
@@ -27,12 +28,14 @@ namespace RazorAppForArduino
         [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-
+            
             services.AddDbContextPool<AppDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("BoostDBConnection"));
+
             });
+            services.AddRazorPages();
+            services.AddScoped<IOptimalBoostRepository, SqlOptimalBoostRepo>();
 
             /*services.Configure<CookiePolicyOptions>(options =>
             {

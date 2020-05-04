@@ -10,9 +10,13 @@ namespace RazorAppForArduino
     {
         public AppDBContext(DbContextOptions<AppDBContext> options): base(options)
         {
-
+           
         }
-        public DbSet<OptimalBoost> OptimalBoosts { get; set; }
+        public DbSet<OptimalBoost> OptimalBoost { get; set; }
+
+
+
+
 
     }
 }

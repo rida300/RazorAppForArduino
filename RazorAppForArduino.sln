@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorAppForArduino", "RazorAppForArduino\RazorAppForArduino.csproj", "{691E78C8-1863-41FF-8DED-A2508635D33C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorAppForArduino", "RazorAppForArduino\RazorAppForArduino.csproj", "{691E78C8-1863-41FF-8DED-A2508635D33C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorAppForArduino.Model", "RazorAppForArduino.Model\RazorAppForArduino.Model.csproj", "{C7EEE778-DFB8-4171-8E01-4D3B33226B0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorAppForArduino.Services", "RazorAppForArduino.Services\RazorAppForArduino.Services.csproj", "{EF17FF96-4280-4075-A978-BC0D6D5EFC40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{691E78C8-1863-41FF-8DED-A2508635D33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{691E78C8-1863-41FF-8DED-A2508635D33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{691E78C8-1863-41FF-8DED-A2508635D33C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7EEE778-DFB8-4171-8E01-4D3B33226B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7EEE778-DFB8-4171-8E01-4D3B33226B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7EEE778-DFB8-4171-8E01-4D3B33226B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7EEE778-DFB8-4171-8E01-4D3B33226B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF17FF96-4280-4075-A978-BC0D6D5EFC40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF17FF96-4280-4075-A978-BC0D6D5EFC40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF17FF96-4280-4075-A978-BC0D6D5EFC40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF17FF96-4280-4075-A978-BC0D6D5EFC40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
