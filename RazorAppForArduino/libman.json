@@ -13,6 +13,15 @@
     {
       "library": "react-chartjs@1.2.0",
       "destination": "wwwroot/lib/react-chartjs/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@aspnet/signalr@1",
+      "destination": "wwwroot/lib/@aspnet/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }

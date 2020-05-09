@@ -32,10 +32,20 @@ namespace RazorAppForArduino.Model
 
         public OptimalBoost GetOptimalVoltage(double Psi)
         {
-            //OptimalBoost q = context.OptimalBoosts.Where(e => e.Psi == Psi);
-            //OptimalBoost res = q as Object as OptimalBoost;
-            //return res;
+            //IEnumerable<OptimalBoost> query = context.OptimalBoost;
+            //query = query.Where(o => o.Psi == Psi);
+            //return query.GroupBy(e=> e.Psi).Select()
             throw new NotImplementedException();
+        }
+
+        public OptimalBoost GetById(int id)
+        {
+            OptimalBoost o = context.OptimalBoost.Find(id);
+            if (o != null)
+            {
+                return o;
+            }
+            return null;//idk
         }
 
         public IEnumerable<OptimalBoost> GetAll()
@@ -43,8 +53,6 @@ namespace RazorAppForArduino.Model
             IEnumerable<OptimalBoost> som = context.OptimalBoost;
             return som;
         }
-
-
 
         public OptimalBoost Update(OptimalBoost opt)
         {

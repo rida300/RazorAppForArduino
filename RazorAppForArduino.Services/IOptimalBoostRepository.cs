@@ -12,6 +12,7 @@ namespace RazorAppForArduino.Model
         OptimalBoost Add(OptimalBoost opt);
         OptimalBoost Update(OptimalBoost opt);
         OptimalBoost Delete(double newPsi);
+        OptimalBoost GetById(int id);
 
     }
 }

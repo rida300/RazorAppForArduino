@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using RazorAppForArduino.Model;
+using SerailPortRazor.Hubs;
 
 namespace RazorAppForArduino
 {
@@ -36,6 +37,7 @@ namespace RazorAppForArduino
             });
             services.AddRazorPages();
             services.AddScoped<IOptimalBoostRepository, SqlOptimalBoostRepo>();
+            services.AddSignalR();
 
             /*services.Configure<CookiePolicyOptions>(options =>
             {
@@ -75,6 +77,11 @@ namespace RazorAppForArduino
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+            });
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<MyHub>("/MyHub");
             });
         }
     }

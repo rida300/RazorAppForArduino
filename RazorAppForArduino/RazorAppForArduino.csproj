@@ -13,12 +13,18 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
+    <PackageReference Include="SerialPortStream" Version="2.2.1" />
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RazorAppForArduino.Model\RazorAppForArduino.Model.csproj" />
     <ProjectReference Include="..\RazorAppForArduino.Services\RazorAppForArduino.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\%40aspnet\signalr\dist\browser\" />
   </ItemGroup>
 
 </Project>

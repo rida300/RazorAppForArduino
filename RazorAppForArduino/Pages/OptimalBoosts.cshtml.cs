@@ -15,8 +15,6 @@ namespace RazorAppForArduino.Pages
 
         public IEnumerable<OptimalBoost> OptimalBoosts { get; set; }
 
-
-
         public OptimalBoostsModel(IOptimalBoostRepository boostRepository)
         {
 

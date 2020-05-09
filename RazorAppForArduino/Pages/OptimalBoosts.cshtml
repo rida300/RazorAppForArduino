@@ -7,4 +7,27 @@
 <h1>OptimalBoosts</h1>
 
 <h2>@Model.OptimalBoosts.Count()</h2>
+<div class="card-deck">
+    @{int index = 1;
+        foreach (var boostie in Model.OptimalBoosts)
+        {
+            var photoPath = "~/images/TurboClip.jpg";
+        <div class="card m-3" style="min-width: 18rem; max-width:30.5%;">
+            <div class="card-header">
+                <h3>Set# @index</h3>
+            </div>
+            @*<img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true">*@
+            <div class="card-body text-center">
+                @boostie.Psi psi => @boostie.CorrespondingVoltage Volts
+            </div>
+            <div class="card-footer text-center">
+          
+                <a asp-page="/Edit" asp-route-ID="@index" class="btn btn-primary m-1">Edit</a>
+                </div>
+
+        </div>
+                index = index + 1;
+            }
+        }
+</div>
 
