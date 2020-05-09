@@ -4,15 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
+
 <div class="text-center">
     <h1 class="display-4">Electronic Boost Control System</h1>
 </div>
 
-<div class="col-sm-10">
-        <input asp-for="SerialData" class="form-control" placeholder="Serial data from arduino" id="SerialPort">
-</div>
-
-@*@{
+@{
     var photoPath = "~/images/BoostControlDiagram.png";
     <img class="card-img-top " src="@photoPath" asp-append-version="true">
-}*@
+}

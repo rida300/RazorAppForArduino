@@ -77,12 +77,13 @@ namespace RazorAppForArduino
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapHub<MyHub>("/myHub");
             });
 
-            app.UseSignalR(routes =>
-            {
-                routes.MapHub<MyHub>("/MyHub");
-            });
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<MyHub>("/MyHub");
+            //});
         }
     }
 }

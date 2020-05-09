@@ -9,9 +9,9 @@ namespace SerailPortRazor.Hubs
 {
     public class MyHub : Hub
     {
-        public async Task SendMessage(string user)
+        public async Task SendMessage(string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage: ", user);
+            await Clients.All.SendAsync("ReceiveMessage: ", message);
         }
     }
 }
