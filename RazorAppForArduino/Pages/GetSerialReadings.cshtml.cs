@@ -51,7 +51,10 @@ namespace RazorAppForArduino.Pages
                         int actualLength = Program.portFromProgram.BaseStream.EndRead(ar);
                         byte[] received = new byte[actualLength];
                         Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
-                        SerialData += System.Text.Encoding.Default.GetString(received);
+
+
+                        SerialData += Program.portFromProgram.ReadLine();
+                        //SerialData += System.Text.Encoding.Default.GetString(received);
                         Update(SerialData);
                     }
                     catch (IOException exc)
@@ -59,7 +62,7 @@ namespace RazorAppForArduino.Pages
                         SerialData = "Fucked";
                     }
                     kickoffRead();
-                }, null);
+                }, null);;
             };
             kickoffRead();
         }
@@ -68,16 +71,5 @@ namespace RazorAppForArduino.Pages
         {
             getMyData();
         }
-
-        //public void OnGetRefresh()
-        //{
-        //    if (!myport.IsOpen)
-        //    {
-        //        myport.Open();
-        //    }
-        //    string existing = myport.ReadExisting();
-        //    SerialData = myport.ReadLine();
-        //}
-
     }
 }

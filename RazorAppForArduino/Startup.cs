@@ -39,15 +39,7 @@ namespace RazorAppForArduino
             services.AddScoped<IOptimalBoostRepository, SqlOptimalBoostRepo>();
             services.AddSignalR();
 
-            /*services.Configure<CookiePolicyOptions>(options =>
-            {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });*/
-
             services.AddTransient<InvoiceService>();
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 
 
@@ -80,10 +72,6 @@ namespace RazorAppForArduino
                 endpoints.MapHub<MyHub>("/myHub");
             });
 
-            //app.UseSignalR(routes =>
-            //{
-            //    routes.MapHub<MyHub>("/MyHub");
-            //});
         }
     }
 }
