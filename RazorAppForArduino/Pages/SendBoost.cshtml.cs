@@ -11,25 +11,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace RazorAppForArduino.Pages
 {
-    public class BoostModel : PageModel
+    public class SendBoostModel : PageModel
     {
         [BindProperty]
         public float Boost { get; set; }
-        SerialPort port = new SerialPort
-        {
-            BaudRate = 9600,
-            PortName = "COM11" 
-            
-        };
+        
         public void OnGet()
         {
-            port.Close();
-            //port.Open();
+            
 
         }
         public void OnPostSendBoost()
         {
-            port.Write("set:"+Boost);
+            Program.portFromProgram.WriteLine("set:"+Boost);
         }
     }
 }
