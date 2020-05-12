@@ -18,7 +18,7 @@ namespace RazorAppForArduino.Pages
 
         public string SerialData;
 
-        public static Action<String> UpdateAction { get; set; }
+        public static Action<byte> UpdateAction { get; set; }
 
         public GetSerialReadingsModel(IHubContext<MyHub> hubContext)
         {
@@ -28,11 +28,11 @@ namespace RazorAppForArduino.Pages
 
         }
 
-        public static void Update(string msg)
+        public static void Update(byte msg)
         {
             UpdateAction.Invoke(msg);
         }
-        public async void ReceiveMessage(string message1)
+        public async void ReceiveMessage(byte message1)
         {
             string whole = SerialData;
             await HubContext.Clients.All.SendAsync("ReceiveMessage", message1);
@@ -49,27 +49,16 @@ namespace RazorAppForArduino.Pages
                 {
                     try
                     {
-                        int actualLength = Program.portFromProgram.BaseStream.EndRead(ar);
-                                                
-                        byte[] received = new byte[actualLength];
-                        Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
+                            int actualLength = Program.portFromProgram.BaseStream.EndRead(ar);
+                            byte[] received = new byte[actualLength];
+                            Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
 
-                        string justReceived = System.Text.Encoding.Default.GetString(received);
-                       // string justReceived = Program.portFromProgram.ReadLine();
-                        string[] words = justReceived.Split("\r\n");
-
-                        foreach (var word in words)
-                        {
-                            if (word != "\r\n" && word!="")
+                            foreach (byte c in received)
                             {
-                                 SerialData += word;
-                                 Console.WriteLine(word);
-                                 Update(word);                                    
-                            }                            
-                        }
-                        //SerialData += justReceived;
-                        //Update(SerialData);
-                    }
+                                Update(c);
+                            }
+                        }                  
+                    
                     catch (IOException exc)
                     {
                         SerialData = "Fucked";

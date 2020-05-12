@@ -9,7 +9,7 @@ namespace SerailPortRazor.Hubs
 {
     public class MyHub : Hub
     {
-        public async Task SendMessage(string message)
+        public async Task SendMessage(byte message)
         {
             await Clients.All.SendAsync("ReceiveMessage: ", message);
         }
