@@ -6,7 +6,7 @@
 
 <input asp-for="Element" name="Element" type="hidden" id="someShit"  />
 @{ 
-    var updatedValue = "dick";
+    List<string> localArr = new List<string>();
 
 }
 
@@ -128,10 +128,36 @@
                             },
                         },
                     ],
+                },
+                dragData: true,
+                dragDataRound: 1,
+
+                dragOptions: {
+                    showTooltip: true,
+                },
+
+                onDragStart: function (e) {
+                    console.log(e)
+                },
+
+                onDrag: function (e, datasetIndex, index, value) {
+                    e.target.style.cursor = "grabbing";
+                    console.log(datasetIndex, index, value)
+                },
+
+                onDragEnd: function (e, datasetIndex, index, value) {
+                    e.target.style.cursor = "default";
+                    console.log(datasetIndex, index, value);
 
                 },
-                dragData: true
 
+                hover: {
+                    onHover: function (e) {
+                        const point = this.getElementAtEvent(e);
+                        if (point.length) e.target.style.cursor = "grab";
+                        else e.target.style.cursor = "default";
+                    },
+                }
             }
         });
 
@@ -195,8 +221,6 @@
             if (chartinstance.data.datasets[datasetindex])
                 chartinstance.data.datasets[datasetindex].data[index] = value;
             chartinstance.update(0);
-
-
         }*@
 
     }
@@ -220,9 +244,6 @@
 
 </script>
 
-
-    @{Model.Element = updatedValue;
-    }
 
 <form method="post">
     <div class="form-check">
