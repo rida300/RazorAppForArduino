@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace RazorAppForArduino
 {
-
     public class InvoiceModel
     {
         public int InvoiceNumber { get; set; }

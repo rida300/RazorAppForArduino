@@ -14,16 +14,20 @@ namespace RazorAppForArduino.Pages
     public class SendBoostModel : PageModel
     {
         [BindProperty]
-        public float Boost { get; set; }
+        public int Boost { get; set; }
         
         public void OnGet()
         {
             
-
         }
         public void OnPostSendBoost()
         {
-            Program.portFromProgram.WriteLine("set:"+Boost);
+            //Program.portFromProgram.Write("set:"+Boost);
+            //byte[] intBytes = BitConverter.GetBytes(Boost);
+            //Array.Reverse(intBytes);
+            //byte[] result = intBytes;
+            Program.portFromProgram.WriteLine(Boost.ToString());
+            
         }
     }
 }

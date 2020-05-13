@@ -4,6 +4,12 @@
     ViewData["Title"] = "Home page";
 }
 
+<input asp-for="Element" name="Element" type="hidden" id="someShit"  />
+@{ 
+    var updatedValue = "dick";
+
+}
+
 <script src="~/js/Chart.bundle.min.js"></script>
 <script src="~/js/Chart.min.js"></script>
 <script src="~/lib/react-chartjs/react-chartjs.min.js"></script>
@@ -13,38 +19,6 @@
     <h1 class="display-4">Invoice List</h1>
 </div>
 
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.InvoiceList[0].InvoiceNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvoiceList[0].Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvoiceList[0].CostCategory)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.InvoiceList)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InvoiceNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Amount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CostCategory)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
 
 <div class="container">
     <canvas id="invChart" width="500" height="300"></canvas>
@@ -54,9 +28,9 @@
     /////////
     var myAmounts = [];
     var myCategories = [];
+    var myX = [];
+    var myY = [];
     var myInvoices;
-
-
     function showChart() {
         myAmounts = myInvoices.AmountList;
         myCategories = myInvoices.CategoryList;
@@ -105,7 +79,7 @@
                         'rgba(75, 192, 192, 0.6)',
                         'rgba(153, 102, 255, 0.6)',
                     ],
-                    
+
                     pointBackgroundColor: "#531A15",
                     pointRadius: 4,
                     pointHoverRadius: 4,
@@ -157,43 +131,73 @@
 
                 },
                 dragData: true
+
             }
         });
 
 
+        var ctx = document.getelementbyid("invchart").getcontext("1d");
+        var chartinstance = new chart(ctx, options);
 
-        //var ctx = document.getElementById("invChart").getContext("1d");
-        //var chartInstance = new Chart(ctx, options);
+        @*d3.select(chartinstance.chart.canvas).call(
+            d3
+                .drag()
+                .container(chartinstance.chart.canvas)
+                .on("start", getelement)
+                .on("drag", updatedata)
+                .on("end", sendElementToModel)
+        );
 
-        //d3.select(chartInstance.chart.canvas).call(
-        //    d3
-        //        .drag()
-        //        .container(chartInstance.chart.canvas)
-        //        .on("start", getElement)
-        //        .on("drag", updateData)
-        //        .on("end", getElement)
-        //);
+        var element, scale, datasetindex, index, value;
 
-        //var element, scale, datasetIndex, index, value;
+        function getelement() {
+            var e = d3.event.sourceevent;
+            element = chartinstance.getelementatevent(e)[0];
+            if (element) scale = element._yscale.id;
+            @updatedValue = element;
+            document.getElementById("someShit").value = element;
+            console.log("In getElement");
+            document
+                .getElementById("GetButton")
+                .addEventListener("click", function () {
+                    document.getElementById("displayZoomType").innerHTML = element;
+                });
+        }
 
-        //function getElement() {
-        //    var e = d3.event.sourceEvent;
-        //    element = chartInstance.getElementAtEvent(e)[0];
-        //    if (element) scale = element._yScale.id;
-        //}
+        function sendElementToModel() {
+            console.log("In end method");
+            document
+                .getElementById("GetButton")
+                .addEventListener("click", function () {
+                    document.getElementById("displayZoomType").innerHTML = element;
+                });
+            $.ajax({
+                url: "?handler=ProcessData",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ person: element }),
+                success: function (response) {
+                    response ? console.log("It shouldve worked") : alert("It didn't work.");
+                }
+            }).done();
 
-        //function updateData() {
-        //    var e = d3.event.sourceEvent;
-        //    if (element) {
-        //        datasetIndex = element._datasetIndex;
-        //        index = element._index;
-        //    }
-        //    if (chartInstance.scales[scale])
-        //        value = chartInstance.scales[scale].getValueForPixel(e.clientY);
-        //    if (chartInstance.data.datasets[datasetIndex])
-        //        chartInstance.data.datasets[datasetIndex].data[index] = value;
-        //    chartInstance.update(0);
-        //}
+        }
+
+        function updatedata() {
+            console.log("In update method");
+            var e = d3.event.sourceevent;
+            if (element) {
+                datasetindex = element._datasetindex;
+                index = element._index;
+            }
+            if (chartinstance.scales[scale])
+                value = chartinstance.scales[scale].getvalueforpixel(e.clienty);
+            if (chartinstance.data.datasets[datasetindex])
+                chartinstance.data.datasets[datasetindex].data[index] = value;
+            chartinstance.update(0);
+
+
+        }*@
 
     }
 
@@ -201,26 +205,12 @@
     function getChartData() {
         return fetch('./CreateGraph?handler=InvoiceChartData',
             {
-                method: 'get',
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json;charset=UTF-8'
                 }
             })
 
-            .then(function (response) {
-                if (response.ok) {
-                    return response.text();
-                } else {
-                    throw Error('Response Not OK');
-                }
-            })
-            .then(function (text) {
-                try {
-                    return JSON.parse(text);
-                } catch (err) {
-                    throw Error('Method Not Found');
-                }
-            })
             .then(function (responseJSON) {
                 myInvoices = responseJSON;
                 showChart();
@@ -229,3 +219,23 @@
     getChartData();
 
 </script>
+
+
+    @{Model.Element = updatedValue;
+    }
+
+<form method="post">
+    <div class="form-check">
+        <button id="GetButton" type="submit" class="btn btn-primary" asp-page-handler="ShowReading">Send</button>
+    </div>
+</form>
+<span id="displayZoomType"></span>
+
+@*<script>
+
+    $("#buttonId").on("click", function (e) {
+        e.preventDefault();
+        return false;
+    });
+
+    </script>*@

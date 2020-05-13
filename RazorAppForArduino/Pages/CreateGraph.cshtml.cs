@@ -14,6 +14,15 @@ namespace RazorAppForArduino.Pages
         private readonly InvoiceService _invoiceService;
 
         public List<InvoiceModel> InvoiceList;
+
+        [ViewData]
+        [BindProperty]
+        public string Element { get; set; }
+
+        [ViewData]
+        [BindProperty]
+        public string Title { get; set; }
+
         public CreateGraph(InvoiceService invoiceService)
         {
             _invoiceService = invoiceService;
@@ -38,6 +47,22 @@ namespace RazorAppForArduino.Pages
             }
 
             return new JsonResult(invoiceChart);
+        }
+
+        public void OnPostShowReading()
+        {
+         
+            var so = Element;
+        }
+
+        public void OnPost(Object o)
+        {
+            var some = o;
+        }
+
+        public void OnPostProcessData(Object person)
+        {
+            var p = person;
         }
 
     }

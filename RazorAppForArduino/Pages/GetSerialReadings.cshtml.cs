@@ -34,9 +34,7 @@ namespace RazorAppForArduino.Pages
         }
         public async void ReceiveMessage(byte message1)
         {
-            string whole = SerialData;
             await HubContext.Clients.All.SendAsync("ReceiveMessage", message1);
-
         }
 
         public void getMyData()
@@ -49,16 +47,16 @@ namespace RazorAppForArduino.Pages
                 {
                     try
                     {
-                            int actualLength = Program.portFromProgram.BaseStream.EndRead(ar);
-                            byte[] received = new byte[actualLength];
-                            Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
-
-                            foreach (byte c in received)
-                            {
-                                Update(c);
-                            }
-                        }                  
-                    
+                        int actualLength = Program.portFromProgram.BaseStream.EndRead(ar);
+                        byte[] received = new byte[actualLength];
+                        Buffer.BlockCopy(buffer, 0, received, 0, actualLength);
+                        
+                        foreach (byte c in received)
+                        {
+                            byte[] temp = { c };
+                            Update(c);
+                        }
+                    }
                     catch (IOException exc)
                     {
                         SerialData = "Fucked";
