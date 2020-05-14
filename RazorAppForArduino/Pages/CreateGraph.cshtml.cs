@@ -19,6 +19,15 @@ namespace RazorAppForArduino.Pages
         [BindProperty]
         public int Point { get; set; }
 
+        [BindProperty]
+        public int Point2 { get; set; }
+
+        [BindProperty]
+        public int Point3 { get; set; }
+
+        [BindProperty]
+        public int Point4 { get; set; }
+
         public bool showBoxes { get; set; }
 
         [BindProperty]
@@ -43,23 +52,22 @@ namespace RazorAppForArduino.Pages
 
         public void OnPostShowReading()
         {
-            //Program.portFromProgram.WriteLine(Boost.ToString());
-            var so = Point;
+            StringBuilder sb = new StringBuilder(Point+","+Point2+","+Point3+","+Point4);
+            string sendMe = sb.ToString();
+            Program.portFromProgram.WriteLine(sendMe.ToString());
         }
 
         public void OnPostAddValues()
         {
             showBoxes = true;
-            Console.WriteLine();
         }
 
         public void OnPostGotValues()
         {
-            var vss = V1;
             StringBuilder sb = new StringBuilder(V1+","+V2+","+V3+","+V4);
-            string passToArduino = sb.ToString();      
-                
-            Console.WriteLine();
+            string passToArduino = sb.ToString();
+            Program.portFromProgram.WriteLine(passToArduino);
+            
         }
 
 
