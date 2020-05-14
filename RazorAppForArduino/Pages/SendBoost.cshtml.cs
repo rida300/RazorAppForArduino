@@ -26,13 +26,14 @@ namespace RazorAppForArduino.Pages
             //byte[] intBytes = BitConverter.GetBytes(Boost);
             //Array.Reverse(intBytes);
             //byte[] result = intBytes;
-            StringBuilder sb = new StringBuilder("S," + Boost);
-            Program.portFromProgram.WriteLine(sb.ToString());
+            StringBuilder sb = new StringBuilder("S," + Boost+"e");
+            string sending = sb.ToString();
+            Program.portFromProgram.WriteLine(sending);
             
         }
         public void OnPostScramble()
         {
-            Program.portFromProgram.WriteLine("!");
+            Program.portFromProgram.WriteLine("!e");
         }
 
     }

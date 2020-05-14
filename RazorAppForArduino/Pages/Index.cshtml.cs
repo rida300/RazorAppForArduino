@@ -35,7 +35,7 @@ namespace RazorAppForArduino.Pages
 
         public void OnPostScramble()
         {
-            Program.portFromProgram.WriteLine("!");
+            Program.portFromProgram.WriteLine("!e");
         }
 
         //public void OnPostLedOn()

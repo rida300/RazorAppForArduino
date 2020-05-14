@@ -3,7 +3,7 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/myHub").build();
 
 connection.on("ReceiveMessage", function (message) {
-        document.getElementById("messagesList").innerHTML = message;             
+        document.getElementById("messagesList").innerHTML = "- "+message+" +";             
 });
 
 

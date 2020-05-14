@@ -19,9 +19,10 @@ namespace RazorAppForArduino
             portFromProgram = new SerialPort
             {
                 BaudRate = 9600,
-                PortName = "COM11"
+                PortName = "COM5"
             };
             portFromProgram.Open();
+            System.Threading.Thread.Sleep(1000);
             CreateHostBuilder(args).Build().Run();
         }
 

@@ -59,7 +59,7 @@ namespace RazorAppForArduino.Pages
                     }
                     catch (IOException exc)
                     {
-                        SerialData = "Fucked";
+                        SerialData = "Error";
                     }
                     kickoffRead();
                 }, null); ;
@@ -73,7 +73,7 @@ namespace RazorAppForArduino.Pages
         }
         public void OnPostScramble()
         {
-            Program.portFromProgram.WriteLine("!");
+            Program.portFromProgram.WriteLine("!e");
         }
 
     }
