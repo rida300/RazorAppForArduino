@@ -71,5 +71,10 @@ namespace RazorAppForArduino.Pages
         {
             getMyData();
         }
+        public void OnPostScramble()
+        {
+            Program.portFromProgram.WriteLine("!");
+        }
+
     }
 }

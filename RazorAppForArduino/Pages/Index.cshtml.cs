@@ -33,6 +33,10 @@ namespace RazorAppForArduino.Pages
             
         }   
 
+        public void OnPostScramble()
+        {
+            Program.portFromProgram.WriteLine("!");
+        }
 
         //public void OnPostLedOn()
         //{

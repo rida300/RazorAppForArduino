@@ -3,7 +3,9 @@
 @{
     ViewData["Title"] = "Boost";
 }
-
+    <form method="post">
+        <button id="scramble" type="submit" class="scramble" asp-page-handler="Scramble">Scramble</button>
+    </form>
 <form method="post">
     <div class="form-check">
         <input asp-for="Boost" class="form-control" placeholder="Enter Boost vlaue ">

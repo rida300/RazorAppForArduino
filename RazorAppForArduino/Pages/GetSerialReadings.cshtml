@@ -4,6 +4,10 @@
     ViewData["Title"] = "GetSerialReadings";
 }
 
+<form method="post">
+    <button id="scramble" type="submit" class="scramble" asp-page-handler="Scramble">Scramble</button>
+</form>
+
 <h1>Continuous psi Readings</h1>
 
 <div class="row">
@@ -11,9 +15,9 @@
         <hr />
     </div>
 </div>
-    <div >
-        <label id="messagesList"></label>
-    </div>
+<div>
+    <label id="messagesList"></label>
+</div>
 
 
 

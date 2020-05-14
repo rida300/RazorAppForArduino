@@ -64,10 +64,14 @@ namespace RazorAppForArduino.Pages
 
         public void OnPostGotValues()
         {
-            StringBuilder sb = new StringBuilder(V1+","+V2+","+V3+","+V4);
+            StringBuilder sb = new StringBuilder("G,"+V1+","+V2+","+V3+","+V4);
             string passToArduino = sb.ToString();
-            Program.portFromProgram.WriteLine(passToArduino);
-            
+            Program.portFromProgram.WriteLine(passToArduino);            
+        }
+
+        public void OnPostScramble()
+        {
+            Program.portFromProgram.WriteLine("!");
         }
 
 

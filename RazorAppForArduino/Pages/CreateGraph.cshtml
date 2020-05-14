@@ -10,226 +10,194 @@
 <script src="~/js/chartjs-plugin-drag.js"></script>
 <script src="~/lib/jquery/dist/jquery.js"></script>
 
-<div class="text-center">
-    <h1 class="display-4">Invoice List</h1>
-</div>
+<form method="post">
+    <button id="scramble" type="submit" class="scramble" asp-page-handler="Scramble">Scramble</button>
+    </form>
 
-<form method="post" style="margin">
-    <div class="form-check">
-        <button id="AddValues" type="submit" class="btn btn-primary" asp-page-handler="AddValues">Enter psi Values</button>
-        @{if (Model.showBoxes == true)
-
-            {
-                <br>
-                <input asp-for="V1" id="val1" placeholder="Value 1"/>
-                <br>
-                <input asp-for="V2" id="val2" placeholder="Value 2"/>
-                <br>
-                <input asp-for="V3" id="val3" placeholder="Value 3" />
-                <br>
-                <input asp-for="V4" id="val4" placeholder="Value 4" />
-                <br>
-                <button id="v1" type="submit" class="btn btn-primary" asp-page-handler="GotValues"> Send Values </button>
-
-
-
-            }
-
-        }
-
+    <div class="container">
+        <canvas id="invChart" width="500" height="300"></canvas>
     </div>
-</form>
 
+    <script>
+        /////////
+        var myAmounts = [];
+        var myCategories = [];
+        var myX = [];
+        var myY = [];
+        var myInvoices;
+        function showChart() {
+            myAmounts = myInvoices.AmountList;
+            myCategories = myInvoices.CategoryList;
+            console.log(myAmounts);
+            console.log(myCategories);
 
-<div class="container">
-    <canvas id="invChart" width="500" height="300"></canvas>
-</div>
+            Chart.pluginService.register({
+                beforeDraw: function (chart, easing) {
+                    if (
+                        chart.config.options.chartArea &&
+                        chart.config.options.chartArea.backgroundColor
+                    ) {
+                        var helpers = Chart.helpers;
+                        var ctx = chart.chart.ctx;
+                        var chartArea = chart.chartArea;
 
-<script>
-    /////////
-    var myAmounts = [];
-    var myCategories = [];
-    var myX = [];
-    var myY = [];
-    var myInvoices;
-    function showChart() {
-        myAmounts = myInvoices.AmountList;
-        myCategories = myInvoices.CategoryList;
-        console.log(myAmounts);
-        console.log(myCategories);
-
-        Chart.pluginService.register({
-            beforeDraw: function (chart, easing) {
-                if (
-                    chart.config.options.chartArea &&
-                    chart.config.options.chartArea.backgroundColor
-                ) {
-                    var helpers = Chart.helpers;
-                    var ctx = chart.chart.ctx;
-                    var chartArea = chart.chartArea;
-
-                    ctx.save();
-                    ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
-                    ctx.fillRect(
-                        chartArea.left,
-                        chartArea.top,
-                        chartArea.right - chartArea.left,
-                        chartArea.bottom - chartArea.top
-                    );
-                    ctx.restore();
-                }
-            },
-        });
-
-
-
-        let popCanvasName = document.getElementById("invChart");
-        let barChartName = new Chart(popCanvasName, {
-            type: 'line',
-            data: {
-                labels: ["aa", "bb", "cc", "dd", "ee"],
-                datasets: [{
-                    label: 'Dome Pressure (psi)',
-                    data: ["4", "6", "10", "14", "20", "20", "20"],
-                    borderWidth: "1",
-                    //borderDash: "[5,5]",
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.6)',
-                        'rgba(54, 162, 235, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
-                        'rgba(75, 192, 192, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                    ],
-
-                    pointBackgroundColor: "#531A15",
-                    pointRadius: 4,
-                    pointHoverRadius: 4,
-                    pointBorderColor: "#531A15",
-                    pointHoverBackgroundColor: "black",
-                    pointHoverBorderColor: "#55bae7",
-                }]
-            },
-            options: {
-                responsive: false,
-                chartArea: {
-                    backgroundColor: "#9D8F9C",
+                        ctx.save();
+                        ctx.fillStyle = chart.config.options.chartArea.backgroundColor;
+                        ctx.fillRect(
+                            chartArea.left,
+                            chartArea.top,
+                            chartArea.right - chartArea.left,
+                            chartArea.bottom - chartArea.top
+                        );
+                        ctx.restore();
+                    }
                 },
-                scales: {
-                    yAxes: [{
+            });
 
-                        scaleLabel: {
-                            display: true,
-                            labelString: "Dome Pressure (psig)",
-                            fontSize: 18,
-                            fontColor: "#531A15",
-                            beginAtZero: true,
-                        },
-                        ticks: {
-                            beginAtZero: true,
 
-                            fontSize: 12,
-                            fontColor: "#531A15"
-                        }
-                    }],
 
-                    xAxes: [
-                        {
+            let popCanvasName = document.getElementById("invChart");
+            let barChartName = new Chart(popCanvasName, {
+                type: 'line',
+                data: {
+                    labels: ["aa", "bb", "cc", "dd", "ee"],
+                    datasets: [{
+                        label: 'Dome Pressure (psi)',
+                        data: ["4", "6", "10", "14", "20", "20", "20"],
+                        borderWidth: "1",
+                        //borderDash: "[5,5]",
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                        ],
+
+                        pointBackgroundColor: "#531A15",
+                        pointRadius: 4,
+                        pointHoverRadius: 4,
+                        pointBorderColor: "#531A15",
+                        pointHoverBackgroundColor: "black",
+                        pointHoverBorderColor: "#55bae7",
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    chartArea: {
+                        backgroundColor: "#9D8F9C",
+                    },
+                    scales: {
+                        yAxes: [{
+
                             scaleLabel: {
                                 display: true,
-                                labelString: "Time (seconds)",
+                                labelString: "Dome Pressure (psig)",
                                 fontSize: 18,
                                 fontColor: "#531A15",
                                 beginAtZero: true,
                             },
                             ticks: {
-                                reverse: false,
+                                beginAtZero: true,
+
                                 fontSize: 12,
-                                fontColor: "#531A15",
+                                fontColor: "#531A15"
+                            }
+                        }],
+
+                        xAxes: [
+                            {
+                                scaleLabel: {
+                                    display: true,
+                                    labelString: "Time (seconds)",
+                                    fontSize: 18,
+                                    fontColor: "#531A15",
+                                    beginAtZero: true,
+                                },
+                                ticks: {
+                                    reverse: false,
+                                    fontSize: 12,
+                                    fontColor: "#531A15",
+                                },
                             },
-                        },
-                    ],
-                },
-                dragData: true,
-                dragDataRound: 1,
-
-                dragOptions: {
-                    showTooltip: true,
-                },
-
-                onDragStart: function (e) {
-                    console.log(e)
-                },
-
-                onDrag: function (e, datasetIndex, index, value) {
-                    e.target.style.cursor = "grabbing";
-                    console.log(datasetIndex, index, value);
-
-                },
-
-                onDragEnd: function (e, datasetIndex, index, value) {
-                    e.target.style.cursor = "default";
-                    var rounded = Math.round(value);
-                    console.log(datasetIndex, index, rounded);
-                    if (index == 0)
-                    {
-                        document.getElementById("point_1").value = rounded;
-                    }
-                    else if (index == 1)
-                    {
-                        document.getElementById("point_2").value = rounded;
-                    }
-                    else if (index == 2)
-                    {
-                        document.getElementById("point_3").value = rounded;
-                    }
-                    else if (index == 3) {
-                        document.getElementById("point_4").value = rounded;
-                    }
-
-                },
-
-                hover: {
-                    onHover: function (e) {
-                        const point = this.getElementAtEvent(e);
-                        if (point.length) e.target.style.cursor = "grab";
-                        else e.target.style.cursor = "default";
+                        ],
                     },
+                    dragData: true,
+                    dragDataRound: 1,
+
+                    dragOptions: {
+                        showTooltip: true,
+                    },
+
+                    onDragStart: function (e) {
+                        console.log(e)
+                    },
+
+                    onDrag: function (e, datasetIndex, index, value) {
+                        e.target.style.cursor = "grabbing";
+                        console.log(datasetIndex, index, value);
+
+                    },
+
+                    onDragEnd: function (e, datasetIndex, index, value) {
+                        e.target.style.cursor = "default";
+                        var rounded = Math.round(value);
+                        console.log(datasetIndex, index, rounded);
+                        if (index == 0) {
+                            document.getElementById("point_1").value = rounded;
+                        }
+                        else if (index == 1) {
+                            document.getElementById("point_2").value = rounded;
+                        }
+                        else if (index == 2) {
+                            document.getElementById("point_3").value = rounded;
+                        }
+                        else if (index == 3) {
+                            document.getElementById("point_4").value = rounded;
+                        }
+
+                    },
+
+                    hover: {
+                        onHover: function (e) {
+                            const point = this.getElementAtEvent(e);
+                            if (point.length) e.target.style.cursor = "grab";
+                            else e.target.style.cursor = "default";
+                        },
+                    }
                 }
-            }
-        });
+            });
 
 
-        var ctx = document.getelementbyid("invchart").getcontext("1d");
-        var chartinstance = new chart(ctx, options);
-    }
+            var ctx = document.getelementbyid("invchart").getcontext("1d");
+            var chartinstance = new chart(ctx, options);
+        }
 
-    function getChartData() {
-        return fetch('./CreateGraph?handler=InvoiceChartData',
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8'
-                }
-            })
+        function getChartData() {
+            return fetch('./CreateGraph?handler=InvoiceChartData',
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    }
+                })
 
-            .then(function (responseJSON) {
-                myInvoices = responseJSON;
-                showChart();
-            })
-    }
-    getChartData();
+                .then(function (responseJSON) {
+                    myInvoices = responseJSON;
+                    showChart();
+                })
+        }
+        getChartData();
 
-</script>
+    </script>
 
 
-<form method="post">
-    <div class="form-check">
-        <button id="GetButton" type="submit" class="btn btn-primary" asp-page-handler="ShowReading">Send Value from Graph</button>
-        <input asp-for="Point" id="point_1" type="hidden"></input>
-        <input asp-for="Point2" id="point_2" type="hidden"></input>
-        <input asp-for="Point3" id="point_3" type="hidden"></input>
-        <input asp-for="Point4" id="point_4" type="hidden"></input>
-    </div>
-</form>
-
-<span id="displayZoomType"></span>
+    <form method="post">
+        <div class="form-check">
+            <button id="GetButton" type="submit" class="btn btn-primary" asp-page-handler="ShowReading">Send Value from Graph</button>
+            <input asp-for="Point" id="point_1" type="hidden"></input>
+            <input asp-for="Point2" id="point_2" type="hidden"></input>
+            <input asp-for="Point3" id="point_3" type="hidden"></input>
+            <input asp-for="Point4" id="point_4" type="hidden"></input>
+        </div>
+    </form>

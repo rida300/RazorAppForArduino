@@ -96,3 +96,14 @@ body {
     display: table;
     clear: both;
 }
+
+.scramble{
+    border-radius: 50%;
+    border-color:black;
+    width: 100px; 
+    color:white;
+    height:100px;
+    margin-left:90%;
+    background-color:red;
+    outline:none;
+}

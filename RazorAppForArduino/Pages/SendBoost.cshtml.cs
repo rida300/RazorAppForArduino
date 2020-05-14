@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.IO.Ports;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
+using System.Text;
 
 namespace RazorAppForArduino.Pages
 {
     public class SendBoostModel : PageModel
     {
         [BindProperty]
-        public int Boost { get; set; }
+        public string Boost { get; set; }
         
         public void OnGet()
         {
@@ -26,8 +26,14 @@ namespace RazorAppForArduino.Pages
             //byte[] intBytes = BitConverter.GetBytes(Boost);
             //Array.Reverse(intBytes);
             //byte[] result = intBytes;
-            Program.portFromProgram.WriteLine(Boost.ToString());
+            StringBuilder sb = new StringBuilder("S," + Boost);
+            Program.portFromProgram.WriteLine(sb.ToString());
             
         }
+        public void OnPostScramble()
+        {
+            Program.portFromProgram.WriteLine("!");
+        }
+
     }
 }
