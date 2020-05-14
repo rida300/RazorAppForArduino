@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,13 +16,21 @@ namespace RazorAppForArduino.Pages
 
         public List<InvoiceModel> InvoiceList;
 
-        [ViewData]
         [BindProperty]
-        public string Element { get; set; }
+        public int Point { get; set; }
 
-        [ViewData]
+        public bool showBoxes { get; set; }
+
         [BindProperty]
-        public string Title { get; set; }
+        public string V1 { get; set; } = "";
+        [BindProperty]
+        public string V2 { get; set; } = "";
+        [BindProperty]
+        public string V3 { get; set; } = "";
+        [BindProperty]
+        public string V4 { get; set; } = "";
+
+
 
         public CreateGraph(InvoiceService invoiceService)
         {
@@ -30,40 +39,29 @@ namespace RazorAppForArduino.Pages
         public void OnGet()
         {
             InvoiceList = _invoiceService.GetInvoices();
-        }
-
-        public JsonResult OnGetInvoiceChartData()
-        {
-           
-            InvoiceList = _invoiceService.GetInvoices();
-            var invoiceChart = new CategoryChartModel();
-            invoiceChart.AmountList = new List<double>();
-            invoiceChart.CategoryList = new List<string>();
-
-            foreach (var inv in InvoiceList)
-            {
-                invoiceChart.AmountList.Add(inv.Amount);
-                invoiceChart.CategoryList.Add(inv.CostCategory);
-            }
-
-            return new JsonResult(invoiceChart);
-        }
+        }        
 
         public void OnPostShowReading()
         {
-         
-            var so = Element;
+            //Program.portFromProgram.WriteLine(Boost.ToString());
+            var so = Point;
         }
 
-        public void OnPost(Object o)
+        public void OnPostAddValues()
         {
-            var some = o;
+            showBoxes = true;
+            Console.WriteLine();
         }
 
-        public void OnPostProcessData(Object person)
+        public void OnPostGotValues()
         {
-            var p = person;
+            var vss = V1;
+            StringBuilder sb = new StringBuilder(V1+","+V2+","+V3+","+V4);
+            string passToArduino = sb.ToString();      
+                
+            Console.WriteLine();
         }
+
 
     }
 }

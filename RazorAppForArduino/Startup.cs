@@ -41,7 +41,7 @@ namespace RazorAppForArduino
 
             services.AddTransient<InvoiceService>();
 
-
+            services.AddMvc();
 
         }
 

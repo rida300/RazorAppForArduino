@@ -4,20 +4,41 @@
     ViewData["Title"] = "Home page";
 }
 
-<input asp-for="Element" name="Element" type="hidden" id="someShit"  />
-@{ 
-    List<string> localArr = new List<string>();
-
-}
-
 <script src="~/js/Chart.bundle.min.js"></script>
 <script src="~/js/Chart.min.js"></script>
 <script src="~/lib/react-chartjs/react-chartjs.min.js"></script>
 <script src="~/js/chartjs-plugin-drag.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
 
 <div class="text-center">
     <h1 class="display-4">Invoice List</h1>
 </div>
+
+<form method="post" style="margin">
+    <div class="form-check">
+        <button id="AddValues" type="submit" class="btn btn-primary" asp-page-handler="AddValues">Enter psi Values</button>
+        @{if (Model.showBoxes == true)
+
+            {
+                <br>
+                <input asp-for="V1" id="val1" placeholder="Value 1"/>
+                <br>
+                <input asp-for="V2" id="val2" placeholder="Value 2"/>
+                <br>
+                <input asp-for="V3" id="val3" placeholder="Value 3" />
+                <br>
+                <input asp-for="V4" id="val4" placeholder="Value 4" />
+                <br>
+                <button id="v1" type="submit" class="btn btn-primary" asp-page-handler="GotValues"> Send Values </button>
+
+
+
+            }
+
+        }
+
+    </div>
+</form>
 
 
 <div class="container">
@@ -107,8 +128,7 @@
                             beginAtZero: true,
 
                             fontSize: 12,
-                            fontColor: "#531A15",
-
+                            fontColor: "#531A15"
                         }
                     }],
 
@@ -142,12 +162,15 @@
 
                 onDrag: function (e, datasetIndex, index, value) {
                     e.target.style.cursor = "grabbing";
-                    console.log(datasetIndex, index, value)
+                    console.log(datasetIndex, index, value);
+
                 },
 
                 onDragEnd: function (e, datasetIndex, index, value) {
                     e.target.style.cursor = "default";
-                    console.log(datasetIndex, index, value);
+                    var rounded = Math.round(value);
+                    console.log(datasetIndex, index, rounded);
+                    document.getElementById("point_1").value = rounded;
 
                 },
 
@@ -164,67 +187,7 @@
 
         var ctx = document.getelementbyid("invchart").getcontext("1d");
         var chartinstance = new chart(ctx, options);
-
-        @*d3.select(chartinstance.chart.canvas).call(
-            d3
-                .drag()
-                .container(chartinstance.chart.canvas)
-                .on("start", getelement)
-                .on("drag", updatedata)
-                .on("end", sendElementToModel)
-        );
-
-        var element, scale, datasetindex, index, value;
-
-        function getelement() {
-            var e = d3.event.sourceevent;
-            element = chartinstance.getelementatevent(e)[0];
-            if (element) scale = element._yscale.id;
-            @updatedValue = element;
-            document.getElementById("someShit").value = element;
-            console.log("In getElement");
-            document
-                .getElementById("GetButton")
-                .addEventListener("click", function () {
-                    document.getElementById("displayZoomType").innerHTML = element;
-                });
-        }
-
-        function sendElementToModel() {
-            console.log("In end method");
-            document
-                .getElementById("GetButton")
-                .addEventListener("click", function () {
-                    document.getElementById("displayZoomType").innerHTML = element;
-                });
-            $.ajax({
-                url: "?handler=ProcessData",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ person: element }),
-                success: function (response) {
-                    response ? console.log("It shouldve worked") : alert("It didn't work.");
-                }
-            }).done();
-
-        }
-
-        function updatedata() {
-            console.log("In update method");
-            var e = d3.event.sourceevent;
-            if (element) {
-                datasetindex = element._datasetindex;
-                index = element._index;
-            }
-            if (chartinstance.scales[scale])
-                value = chartinstance.scales[scale].getvalueforpixel(e.clienty);
-            if (chartinstance.data.datasets[datasetindex])
-                chartinstance.data.datasets[datasetindex].data[index] = value;
-            chartinstance.update(0);
-        }*@
-
     }
-
 
     function getChartData() {
         return fetch('./CreateGraph?handler=InvoiceChartData',
@@ -247,16 +210,9 @@
 
 <form method="post">
     <div class="form-check">
-        <button id="GetButton" type="submit" class="btn btn-primary" asp-page-handler="ShowReading">Send</button>
+        <button id="GetButton" type="submit" class="btn btn-primary" asp-page-handler="ShowReading">Send Value from Graph</button>
+        <input asp-for="Point" id="point_1" type="hidden"></input>
     </div>
 </form>
+
 <span id="displayZoomType"></span>
-
-@*<script>
-
-    $("#buttonId").on("click", function (e) {
-        e.preventDefault();
-        return false;
-    });
-
-    </script>*@
