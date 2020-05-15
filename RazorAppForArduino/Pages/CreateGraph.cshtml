@@ -19,17 +19,8 @@
     </div>
 
     <script>
-        /////////
-        var myAmounts = [];
-        var myCategories = [];
-        var myX = [];
-        var myY = [];
-        var myInvoices;
-        function showChart() {
-            myAmounts = myInvoices.AmountList;
-            myCategories = myInvoices.CategoryList;
-            console.log(myAmounts);
-            console.log(myCategories);
+      
+        function showChart() {            
 
             Chart.pluginService.register({
                 beforeDraw: function (chart, easing) {
@@ -65,7 +56,6 @@
                         label: 'Dome Pressure (psi)',
                         data: ["4", "6", "10", "14", "20", "20", "20"],
                         borderWidth: "1",
-                        //borderDash: "[5,5]",
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.6)',
                             'rgba(54, 162, 235, 0.6)',
@@ -173,21 +163,7 @@
             var chartinstance = new chart(ctx, options);
         }
 
-        function getChartData() {
-            return fetch('./CreateGraph?handler=InvoiceChartData',
-                {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json;charset=UTF-8'
-                    }
-                })
-
-                .then(function (responseJSON) {
-                    myInvoices = responseJSON;
-                    showChart();
-                })
-        }
-        getChartData();
+        showChart();
 
     </script>
 

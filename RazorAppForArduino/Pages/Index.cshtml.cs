@@ -14,56 +14,25 @@ namespace RazorAppForArduino.Pages
     {
         public string Message { get; set; }
 
-        public SerialPort potty { get; set; }
-
         public IndexModel()
         {
-            //potty = new SerialPort
-            //{
-            //    BaudRate = 9600,
-            //    PortName = "COM11"
-            //};
-            //potty.Open();
-            //ViewData["Port"] = potty;
         }
 
         
         public void OnGet()
         {
             
-        }   
+        }
 
+        /// <summary>
+        /// The event handler for the scramble button.
+        /// Writes "!e" to the SerialPort, the '!' lets the Arduino sketch to
+        /// identify that the value is coming from the Scramble button.
+        /// The 'e' lets the Arduino know that the end of the input value is reached
+        /// </summary>
         public void OnPostScramble()
         {
             Program.portFromProgram.WriteLine("!e");
         }
-
-        //public void OnPostLedOn()
-        //{
-        //    myport = new SerialPort
-        //    {
-        //        BaudRate = 9600,
-        //        PortName = "COM11"
-        //    };
-        //    myport.Open();
-
-        //    myport.Write("1");
-        //    myport.Close();
-
-        //}
-
-        //public void OnPostLedOff()
-        //{
-        //    myport = new SerialPort
-        //    {
-        //        BaudRate = 9600,
-        //        PortName = "COM11"
-        //    };
-        //    myport.Open();
-
-        //    myport.Write("2");
-        //    myport.Close();
-        //}
-
     }
 }
